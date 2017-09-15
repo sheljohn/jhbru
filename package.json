@@ -1,0 +1,17 @@
+{
+  "name": "jhbru",
+  "version": "1.0.0",
+  "description": "JH's package for browser utilities",
+  "main": "main.js",
+  "repository": "https://github.com/sheljohn/jhbru.git",
+  "author": "Jonathan H",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^3.6.0"
+  },
+  "dependencies": {
+    "assert": "^1.4.1",
+    "md5": "^2.2.1",
+    "sha1": "^1.1.1"
+  }
+}
