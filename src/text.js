@@ -62,11 +62,21 @@ function pos2line( lines, pos ) {
     return L;
 }
 
+/**
+ * Cut the beginning and end of a string by c chars.
+ */
+function cutlr( s, c ) {
+    s = s || '';
+    c = c || 1;
+    return s.substring( c, s.length-c );
+}
+
 // ------------------------------------------------------------------------
 
 module.exports = {
     'delineate': delineate,
     'pos2line': pos2line,
+    'cutlr': cutlr,
     'sha1': require('sha1'),
     'md5': require('md5')
 };

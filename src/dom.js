@@ -30,7 +30,7 @@ function getMousePos(elm, evt, normalise) {
         elm = elm[0];
     }
 
-    var rect = elm.getBoundingClientRect();
+    let rect = elm.getBoundingClientRect();
     if ( normalise === false ) {
         normX = 1.0;
         normY = 1.0;
@@ -47,14 +47,10 @@ function getMousePos(elm, evt, normalise) {
 
 /**
  * Shorthand to quickly create new jQuery elements:
- *  o 1 input: class
- *      Create div without id and specified class
  *
- *  o 2 inputs: tab, class
- *      Create element with specified tag and class
- *
- *  o 3 inputs: tag, class, id
- *      Create element with specified tag, class and id
+ *  quickTag( 'foo' )               => (class)        => <div class="foo"></div>
+ *  quickTag( 'tag', 'foo' )        => (tag,class)    => <tag class="foo"></tag>
+ *  quickTag( 'tag', 'foo', 'bar' ) => (tag,class,id) => <tag class="foo" id="bar"></tag>
  */
 function quickTag(tg, cl, id) {
 
@@ -75,7 +71,10 @@ function quickTag(tg, cl, id) {
  */
 function stringTag( str, sep ) {
 
-    let innerString = s => { s = s || ''; return s.substring( 1, s.length-1 ); };
+    let innerString = s => {
+        s = s || '';
+        return s.substring( 1, s.length-1 );
+    };
     let match = null;
     let elem = undefined;
 
@@ -91,7 +90,7 @@ function stringTag( str, sep ) {
     return elem;
 }
 
- /**
+/**
  * Parse query string
  * See: http://stackoverflow.com/questions/2090551/parse-query-string-in-javascript
  */
@@ -157,7 +156,15 @@ function Textarea( elm ) {
             elm.focus();
             document.execCommand( 'insertText', false, txt );
         },
-        getCursor: getCursor,
+        getCursor: () => {
+            let ss = dom.selectionStart;
+            let se = dom.selectionEnd;
+            return {
+                'start': ss, 'end': se,
+                'len': se - ss,
+                'sel': se > ss
+            };
+        },
         setCursor: pos => { dom.setSelectionRange(pos,pos); },
         setSelection: (first,last) => { dom.setSelectionRange(first,last); },
         setShortcut: ( combo, up, callback ) => {
@@ -171,18 +178,6 @@ function Textarea( elm ) {
     // bind pubsub to keydown/keyup events
     elm.keydown( e => PubSub.publish( encode(key2str(evt),false), e ) );
     elm.keyup( e => PubSub.publish( encode(key2str(evt),true), e ) );
-
-    //
-    function getCursor() {
-        let ss = dom.selectionStart;
-        let se = dom.selectionEnd;
-        return {
-            'start': ss,
-            'end': se,
-            'len': se - ss,
-            'sel': se > ss
-        };
-    }
 
     return obj;
 }
